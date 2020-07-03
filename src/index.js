@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import Todo from "./components/Todo/Todo";
+import Todo from "./components/todo/TodoContainer";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import * as serviceWorker from "./serviceWorker";

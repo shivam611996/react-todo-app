@@ -1,6 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
@@ -68,6 +69,12 @@ const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
       </TableCell>
     </TableRow>
   );
+};
+
+TodoTableRow.propTypes = {
+  task: PropTypes.object,
+  handleStateChange: PropTypes.func,
+  handleDialogOpen: PropTypes.func,
 };
 
 export default TodoTableRow;

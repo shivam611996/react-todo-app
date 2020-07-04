@@ -1,9 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import TodoTableRow from "../TodoTableRow/TodoTableRow";
 import NoRecordFound from "../NoRecordFound/NoRecordFound";
 
-const TodoTable = ({ filteredTasks, handleStateChange, handleDialogOpen }) => {
+const FilteredRows = ({
+  filteredTasks,
+  handleStateChange,
+  handleDialogOpen,
+}) => {
   return filteredTasks.length ? (
     filteredTasks.map((task) => {
       return (
@@ -20,4 +25,10 @@ const TodoTable = ({ filteredTasks, handleStateChange, handleDialogOpen }) => {
   );
 };
 
-export default TodoTable;
+FilteredRows.propTypes = {
+  filteredTasks: PropTypes.array,
+  handleStateChange: PropTypes.func,
+  handleDialogOpen: PropTypes.func,
+};
+
+export default FilteredRows;

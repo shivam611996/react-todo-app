@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -39,6 +40,12 @@ const TaskRemoveDialog = ({ taskDetails = {}, open, handleClose }) => {
       </DialogActions>
     </Dialog>
   );
+};
+
+TaskRemoveDialog.propTypes = {
+  taskDetails: PropTypes.object,
+  handleClose: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default TaskRemoveDialog;

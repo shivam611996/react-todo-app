@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
@@ -33,6 +34,12 @@ const GroupedRows = ({ groupedTasks, handleStateChange, handleDialogOpen }) => {
   ) : (
     <NoRecordFound />
   );
+};
+
+GroupedRows.propTypes = {
+  groupedTasks: PropTypes.object,
+  handleStateChange: PropTypes.func,
+  handleDialogOpen: PropTypes.func,
 };
 
 export default GroupedRows;

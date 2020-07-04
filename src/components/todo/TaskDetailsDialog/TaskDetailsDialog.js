@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import { DateTimePicker } from "formik-material-ui-pickers";
+import PropTypes from "prop-types";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -158,6 +159,13 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
       </Formik>
     </Dialog>
   );
+};
+
+TaskDetailsDialog.propTypes = {
+  action: PropTypes.string,
+  taskDetails: PropTypes.object,
+  handleClose: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default TaskDetailsDialog;

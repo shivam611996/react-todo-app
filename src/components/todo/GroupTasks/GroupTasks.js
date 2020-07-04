@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,6 +23,11 @@ const GroupTasks = ({ groupBy, handleGrouping }) => {
       </MuiSelect>
     </FormControl>
   );
+};
+
+GroupTasks.propTypes = {
+  groupBy: PropTypes.string,
+  handleGrouping: PropTypes.func,
 };
 
 export default GroupTasks;

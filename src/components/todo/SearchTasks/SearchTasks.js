@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import MuiTextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -19,6 +20,10 @@ const SearchTasks = ({ handleSearch }) => {
       }}
     />
   );
+};
+
+SearchTasks.propTypes = {
+  handleSearch: PropTypes.func,
 };
 
 export default SearchTasks;

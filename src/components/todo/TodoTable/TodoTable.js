@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -167,6 +168,10 @@ const TodoTable = ({ type }) => {
       )}
     </>
   );
+};
+
+TodoTable.propTypes = {
+  type: PropTypes.string,
 };
 
 export default TodoTable;

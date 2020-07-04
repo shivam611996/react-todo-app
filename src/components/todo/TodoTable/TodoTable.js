@@ -4,6 +4,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 
 import TodoTableHead from "./TodoTableHead/TodoTableHead";
 import TodoTableRow from "./TodoTableRow/TodoTableRow";
@@ -28,6 +30,7 @@ const TodoTable = ({ type }) => {
   const [action, setAction] = React.useState("edit");
   const [taskDetails, setTaskDetails] = React.useState({});
   const [filteredTasks, setFilteredTasks] = React.useState(tasks);
+  const [groupedTasks, setGroupedTasks] = React.useState({});
 
   React.useEffect(() => {
     if (type !== "All" && !searchValue && groupBy === "None") {
@@ -58,26 +61,18 @@ const TodoTable = ({ type }) => {
 
   React.useEffect(() => {
     if (groupBy && groupBy !== "None") {
-      const groupedTasks = groupByField(groupBy, tasks);
-      let filteredTasksByGroup = [];
-      const keys = Object.keys(groupedTasks);
-      keys.forEach((key) => filteredTasksByGroup.push(...groupedTasks[key]));
-      filteredTasksByGroup =
+      const filterdedTasks =
         type === "All"
-          ? filteredTasksByGroup
-          : filteredTasksByGroup.filter((task) => task.currentState === type);
-      if (searchValue) {
-        const searchedTasks = searchByValue(searchValue, filteredTasksByGroup);
-        const filteredTasksBySearch =
-          type === "All"
-            ? searchedTasks
-            : searchedTasks.filter((task) => task.currentState === type);
-        setFilteredTasks(filteredTasksBySearch);
-      } else {
-        setFilteredTasks(filteredTasksByGroup);
-      }
+          ? tasks
+          : tasks.filter((task) => task.currentState === type);
+      const searchedTasks = searchValue
+        ? searchByValue(searchValue, filterdedTasks)
+        : filterdedTasks;
+      const groupedTasks = groupByField(groupBy, searchedTasks);
+      setGroupedTasks(groupedTasks);
     } else if (groupBy && groupBy === "None") {
       setFilteredTasks(tasks);
+      setGroupedTasks({});
     }
   }, [groupBy, searchValue, tasks, type]);
 
@@ -125,6 +120,8 @@ const TodoTable = ({ type }) => {
     setOpen(false);
   };
 
+  const groupKeys = Object.keys(groupedTasks);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -140,16 +137,37 @@ const TodoTable = ({ type }) => {
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {filteredTasks.map((task) => {
-                return (
-                  <TodoTableRow
-                    key={task.id}
-                    task={task}
-                    handleStateChange={handleStateChange}
-                    handleDialogOpen={handleDialogOpen}
-                  />
-                );
-              })}
+              {groupBy && groupBy !== "None"
+                ? groupKeys.map((taskGroup) => {
+                    const tasks = groupedTasks[taskGroup];
+                    return (
+                      <React.Fragment key={taskGroup}>
+                        <TableRow tabIndex={-1}>
+                          <TableCell align="center" colSpan={6}>
+                            {taskGroup}
+                          </TableCell>
+                        </TableRow>
+                        {tasks.map((task) => (
+                          <TodoTableRow
+                            key={task.id}
+                            task={task}
+                            handleStateChange={handleStateChange}
+                            handleDialogOpen={handleDialogOpen}
+                          />
+                        ))}
+                      </React.Fragment>
+                    );
+                  })
+                : filteredTasks.map((task) => {
+                    return (
+                      <TodoTableRow
+                        key={task.id}
+                        task={task}
+                        handleStateChange={handleStateChange}
+                        handleDialogOpen={handleDialogOpen}
+                      />
+                    );
+                  })}
             </TableBody>
           </Table>
         </TableContainer>

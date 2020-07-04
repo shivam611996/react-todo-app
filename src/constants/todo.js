@@ -57,22 +57,22 @@ export const rows = [
     "High",
     "Completed"
   ),
-  // createData(
-  //   5,
-  //   "Study unknown stuff",
-  //   "description of studying",
-  //   addDays(new Date(), -1),
-  //   addDays(new Date(), 1),
-  //   "Medium",
-  //   "Completed"
-  // ),
-  // createData(
-  //   6,
-  //   "Do excercise in the morning",
-  //   "description of excercise",
-  //   addDays(new Date(), -4),
-  //   addDays(new Date(), 1),
-  //   "High",
-  //   "Completed"
-  // ),
+  createData(
+    5,
+    "Study unknown stuff",
+    "description of studying",
+    addDays(new Date(), -1),
+    addDays(new Date(), 1),
+    "Medium",
+    "Completed"
+  ),
+  createData(
+    6,
+    "Do excercise in the morning",
+    "description of excercise",
+    addDays(new Date(), -4),
+    addDays(new Date(), 1),
+    "High",
+    "Completed"
+  ),
 ];

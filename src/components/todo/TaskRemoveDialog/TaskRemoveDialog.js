@@ -18,28 +18,26 @@ const TaskRemoveDialog = ({ taskDetails = {}, open, handleClose }) => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "flex-end" }}>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-        disableBackdropClick
-      >
-        <DialogTitle id="form-dialog-title">Delete Task</DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>{taskDetails.summary}</Typography>
-          <Typography gutterBottom>Do you want to delete this task?</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            No
-          </Button>
-          <Button onClick={deleteTask} color="primary">
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="task-remove-dialog-title"
+      disableBackdropClick
+    >
+      <DialogTitle id="task-remove-dialog-title">Delete Task</DialogTitle>
+      <DialogContent dividers>
+        <Typography gutterBottom>{taskDetails.summary}</Typography>
+        <Typography gutterBottom>Do you want to delete this task?</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          No
+        </Button>
+        <Button onClick={deleteTask} color="primary">
+          Yes
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

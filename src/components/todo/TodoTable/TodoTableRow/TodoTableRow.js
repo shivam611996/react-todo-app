@@ -1,5 +1,6 @@
 import React from "react";
 import { format } from "date-fns";
+import clsx from "clsx";
 
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
@@ -11,10 +12,9 @@ import TableRow from "@material-ui/core/TableRow";
 import "./TodoTableRow.styles.scss";
 
 const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
-  const completedStyle = {
-    textDecoration: task.currentState === "Completed" ? "line-through" : "none",
-  };
-  const currentState = task.currentState === "Completed" ? "Re-open" : "Done";
+  const isCompleted = task.currentState === "Completed";
+  const currentState = isCompleted ? "Re-open" : "Done";
+  const completedStyle = clsx(isCompleted && "completed");
 
   return (
     <TableRow
@@ -23,15 +23,15 @@ const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
       tabIndex={-1}
       key={task.id}
     >
-      <TableCell style={completedStyle}>{task.summary}</TableCell>
-      <TableCell style={completedStyle}>{task.description}</TableCell>
-      <TableCell style={completedStyle}>
+      <TableCell className={completedStyle}>{task.summary}</TableCell>
+      <TableCell className={completedStyle}>{task.description}</TableCell>
+      <TableCell className={completedStyle}>
         {format(task.createdOn, "yyyy-MM-dd")}
       </TableCell>
-      <TableCell style={completedStyle}>
+      <TableCell className={completedStyle}>
         {format(task.dueBy, "yyyy-MM-dd")}
       </TableCell>
-      <TableCell style={completedStyle}>{task.priority}</TableCell>
+      <TableCell className={completedStyle}>{task.priority}</TableCell>
       <TableCell>
         <IconButton
           onClick={(e) => {

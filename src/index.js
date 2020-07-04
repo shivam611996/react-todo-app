@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import Todo from "./components/todo/TodoContainer";
 import DateFnsUtils from "@date-io/date-fns";
+
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import Todo from "./components/todo/TodoContainer";
 import * as serviceWorker from "./serviceWorker";
+
+import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>

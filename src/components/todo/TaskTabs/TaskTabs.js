@@ -14,7 +14,6 @@ const a11yProps = (value) => {
 };
 
 const TaskTabs = () => {
-  const classes = {};
   const [value, setValue] = React.useState("All");
 
   const handleChange = (event, newValue) => {
@@ -22,7 +21,7 @@ const TaskTabs = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -43,7 +42,7 @@ const TaskTabs = () => {
       <TabPanel value={value} index="Completed">
         <TodoTable type="Completed" />
       </TabPanel>
-    </div>
+    </>
   );
 };
 

@@ -14,7 +14,8 @@ const TodoContainer = () => {
   const [searchValue, setSearchValue] = React.useState("");
   const [groupBy, setGroupBy] = React.useState("None");
 
-  const handleGrouping = (groupBy) => {
+  const handleGrouping = (event) => {
+    const groupBy = event.target.value;
     setGroupBy(groupBy);
   };
 
@@ -30,7 +31,7 @@ const TodoContainer = () => {
         <TasksContext.Provider value={[tasks, setTasks, searchValue, groupBy]}>
           <CreateTask />
           <div className="grouping-and-searching">
-            <GroupTasks handleGrouping={handleGrouping} />
+            <GroupTasks groupBy={groupBy} handleGrouping={handleGrouping} />
             <SearchTasks handleSearch={handleSearch} />
           </div>
           <TaskTabs />

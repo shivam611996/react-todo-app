@@ -27,11 +27,11 @@ const TodoTableHead = ({ order, orderBy, onRequestSort }) => {
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {/* {orderBy === headCell.id ? (
-                  <span className={classes.visuallyHidden}>
-                    {order === "desc" ? "sorted descending" : "sorted ascending"}
-                  </span>
-                ) : null} */}
+              {orderBy === headCell.id ? (
+                <span className="visually-hidden">
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -41,13 +41,9 @@ const TodoTableHead = ({ order, orderBy, onRequestSort }) => {
 };
 
 TodoTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]),
+  orderBy: PropTypes.string,
+  onRequestSort: PropTypes.func,
 };
 
 export default TodoTableHead;

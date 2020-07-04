@@ -129,14 +129,10 @@ const TodoTable = ({ type }) => {
   const groupKeys = Object.keys(groupedTasks);
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
+    <>
+      <Paper>
         <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            aria-label="enhanced table"
-          >
+          <Table aria-labelledby="tableTitle" aria-label="enhanced table">
             <TodoTableHead
               order={order}
               orderBy={orderBy}
@@ -192,7 +188,7 @@ const TodoTable = ({ type }) => {
           taskDetails={taskDetails}
         />
       )}
-    </div>
+    </>
   );
 };
 

@@ -7,7 +7,6 @@ import Search from "@material-ui/icons/Search";
 const SearchTasks = ({ handleSearch }) => {
   return (
     <MuiTextField
-      id="standard-search"
       label="Search field"
       type="search"
       onChange={handleSearch}

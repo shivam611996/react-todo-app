@@ -1,0 +1,8 @@
+.due-by-n-priority {
+  display: flex;
+  justify-content: space-between;
+
+  .priority {
+    min-width: 40%;
+  }
+}

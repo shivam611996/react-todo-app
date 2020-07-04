@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddCircle from "@material-ui/icons/AddCircle";
 
 import TaskDetailsDialog from "../TaskDetailsDialog/TaskDetailsDialog";
+
 import "./CreateTask.styles.scss";
 
 const CreateTask = () => {

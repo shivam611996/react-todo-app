@@ -5,14 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import MuiSelect from "@material-ui/core/Select";
 
-const GroupTasks = ({ handleGrouping }) => {
-  const [groupBy, setGroupBy] = React.useState("None");
-
-  const handleChange = (event) => {
-    const groupBy = event.target.value;
-    setGroupBy(groupBy);
-    handleGrouping(groupBy);
-  };
+const GroupTasks = ({ groupBy, handleGrouping }) => {
   return (
     <FormControl>
       <InputLabel id="demo-simple-select-label">Group By</InputLabel>
@@ -20,7 +13,7 @@ const GroupTasks = ({ handleGrouping }) => {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={groupBy}
-        onChange={handleChange}
+        onChange={handleGrouping}
       >
         <MenuItem value="None">None</MenuItem>
         <MenuItem value="createdOn">Created On</MenuItem>

@@ -17,6 +17,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "uuid": "^8.2.0",
     "yup": "^0.29.1"
   },
   "scripts": {

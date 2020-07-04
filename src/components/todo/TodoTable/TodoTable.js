@@ -34,51 +34,23 @@ const TodoTable = ({ type }) => {
   const [groupedTasks, setGroupedTasks] = React.useState({});
 
   React.useEffect(() => {
-    if (type !== "All" && !searchValue && groupBy === "None") {
-      let filteredTasksByType = tasks.filter(
+    let filteredTasks = stableSort(tasks, getComparator(order, orderBy));
+
+    if (type !== "All") {
+      filteredTasks = filteredTasks.filter(
         (task) => task.currentState === type
       );
-      filteredTasksByType = stableSort(
-        filteredTasksByType,
-        getComparator(order, orderBy)
-      );
-      setFilteredTasks(filteredTasksByType);
-    } else if (type === "All" && !searchValue && groupBy === "None") {
-      const orderedTasks = stableSort(tasks, getComparator(order, orderBy));
-      setFilteredTasks(orderedTasks);
     }
-  }, [filteredTasks.length, groupBy, order, orderBy, searchValue, tasks, type]);
 
-  React.useEffect(() => {
     if (searchValue) {
-      const filteredTasksByType =
-        type === "All"
-          ? tasks
-          : tasks.filter((task) => task.currentState === type);
-      const orderedTasks = stableSort(
-        filteredTasksByType,
-        getComparator(order, orderBy)
-      );
-      const searchedTasks = searchByValue(searchValue, orderedTasks);
-      setFilteredTasks(searchedTasks);
+      filteredTasks = searchByValue(searchValue, filteredTasks);
     }
-  }, [order, orderBy, searchValue, tasks, type]);
 
-  React.useEffect(() => {
     if (groupBy && groupBy !== "None") {
-      const filteredTasksByType =
-        type === "All"
-          ? tasks
-          : tasks.filter((task) => task.currentState === type);
-      const orderedTasks = stableSort(
-        filteredTasksByType,
-        getComparator(order, orderBy)
-      );
-      const searchedTasks = searchValue
-        ? searchByValue(searchValue, orderedTasks)
-        : orderedTasks;
-      const groupedTasks = groupByField(groupBy, searchedTasks);
+      const groupedTasks = groupByField(groupBy, filteredTasks);
       setGroupedTasks(groupedTasks);
+    } else {
+      setFilteredTasks(filteredTasks);
     }
   }, [groupBy, order, orderBy, searchValue, tasks, type]);
 
@@ -87,18 +59,6 @@ const TodoTable = ({ type }) => {
     const newOrder = isAsc ? "desc" : "asc";
     setOrder(newOrder);
     setOrderBy(property);
-
-    if (!searchValue && groupBy === "None") {
-      let filteredTasks =
-        type === "All"
-          ? tasks
-          : tasks.filter((task) => task.currentState === type);
-      filteredTasks = stableSort(
-        filteredTasks,
-        getComparator(newOrder, property)
-      );
-      setFilteredTasks(filteredTasks);
-    }
   };
 
   const handleStateChange = (task) => {

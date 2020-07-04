@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import { TextField, Select } from "formik-material-ui";
 import { DateTimePicker } from "formik-material-ui-pickers";
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -56,7 +57,7 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
           ...prevTasks,
           {
             ...values,
-            id: prevTasks.length + 1,
+            id: uuidv4(),
             createdOn: new Date(),
             currentState: "Pending",
           },

@@ -23,6 +23,7 @@ const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
       hover
       tabIndex={-1}
       key={task.id}
+      className="cursor"
     >
       <TableCell className={completedStyle}>{task.summary}</TableCell>
       <TableCell className={completedStyle}>{task.description}</TableCell>

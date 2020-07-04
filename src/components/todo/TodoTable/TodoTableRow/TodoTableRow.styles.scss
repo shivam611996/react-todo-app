@@ -6,3 +6,9 @@
 .completed {
   text-decoration: line-through;
 }
+
+.cursor {
+  &:hover {
+    cursor: pointer;
+  }
+}

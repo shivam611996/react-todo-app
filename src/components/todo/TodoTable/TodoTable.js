@@ -1,69 +1,31 @@
 import React from "react";
-import { format } from "date-fns";
 
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import Edit from "@material-ui/icons/Edit";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import TodoTableHead from "./TodoTableHead/TodoTableHead";
+import TodoTableRow from "./TodoTableRow/TodoTableRow";
 import TaskDetailsDialog from "../TaskDetailsDialog/TaskDetailsDialog";
-import { stableSort, getComparator } from "../../../utils/todo";
+import TaskRemoveDialog from "../TaskRemoveDialog/TaskRemoveDialog";
+import {
+  stableSort,
+  getComparator,
+  searchByValue,
+  groupByField,
+} from "../../../utils/todo";
 import { TasksContext } from "../../../contexts/TasksContext";
-
-const handleSearch = (searchValue, tasks) => {
-  let filteredData = [];
-  filteredData = tasks.filter((task) => {
-    const { summary, description, createdOn, dueBy, priority } = task;
-    let rowValues = Object.values({
-      summary,
-      description,
-      createdOn,
-      dueBy,
-      priority,
-    });
-    return rowValues.some((value) => {
-      const regex = new RegExp(searchValue, "gi");
-      if (typeof value == "string") {
-        const matches = value.match(regex);
-        if (matches && matches.length) {
-          return true;
-        }
-      } else if (typeof value == "object") {
-        const matches = format(value, "yyyy-MM-dd").match(regex);
-        if (matches && matches.length) {
-          return true;
-        }
-      }
-      return false;
-    });
-  });
-  return filteredData;
-};
-
-const groupByField = (fieldName, tasks) =>
-  tasks.reduce((result, task) => {
-    return {
-      ...result,
-      [task[fieldName]]: [...(result[task[fieldName]] || []), task],
-    };
-  }, {});
 
 const TodoTable = ({ type }) => {
   const classes = {};
   const [tasks, setTasks, searchValue, groupBy] = React.useContext(
     TasksContext
   );
-  // const [searchValue, searchedTasks] = React.useContext(SearchContext);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("createdOn");
   const [open, setOpen] = React.useState(false);
+  const [action, setAction] = React.useState("edit");
   const [taskDetails, setTaskDetails] = React.useState({});
   const [filteredTasks, setFilteredTasks] = React.useState(tasks);
 
@@ -85,7 +47,7 @@ const TodoTable = ({ type }) => {
 
   React.useEffect(() => {
     if (searchValue) {
-      const searchedTasks = handleSearch(searchValue, tasks);
+      const searchedTasks = searchByValue(searchValue, tasks);
       const filteredTasksBySearch =
         type === "All"
           ? searchedTasks
@@ -105,7 +67,7 @@ const TodoTable = ({ type }) => {
           ? filteredTasksByGroup
           : filteredTasksByGroup.filter((task) => task.currentState === type);
       if (searchValue) {
-        const searchedTasks = handleSearch(searchValue, filteredTasksByGroup);
+        const searchedTasks = searchByValue(searchValue, filteredTasksByGroup);
         const filteredTasksBySearch =
           type === "All"
             ? searchedTasks
@@ -126,7 +88,7 @@ const TodoTable = ({ type }) => {
           ? tasks
           : tasks.filter((task) => task.currentState === type);
       if (searchValue) {
-        orderedTasks = handleSearch(searchValue, orderedTasks);
+        orderedTasks = searchByValue(searchValue, orderedTasks);
       }
       orderedTasks = stableSort(orderedTasks, getComparator(order, orderBy));
       setFilteredTasks(orderedTasks);
@@ -139,7 +101,7 @@ const TodoTable = ({ type }) => {
     setOrderBy(property);
   };
 
-  const handleState = (task) => {
+  const handleStateChange = (task) => {
     setTasks((tasks) => {
       const newTasks = [...tasks].map((item) => {
         if (item.id === task.id) {
@@ -152,12 +114,10 @@ const TodoTable = ({ type }) => {
     });
   };
 
-  const handleDelete = (task) => {
-    setTasks((tasks) => [...tasks].filter((item) => item.id !== task.id));
-  };
-
-  const handleEdit = (task) => {
+  const handleDialogOpen = (action, task) => {
+    console.log({ action });
     setTaskDetails({ ...task });
+    setAction(action);
     setOpen(true);
   };
 
@@ -180,70 +140,34 @@ const TodoTable = ({ type }) => {
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {filteredTasks.map((task, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
-                const completedStyle = {
-                  textDecoration:
-                    task.currentState === "Completed" ? "line-through" : "none",
-                };
+              {filteredTasks.map((task) => {
                 return (
-                  <TableRow hover tabIndex={-1} key={task.id}>
-                    <TableCell
-                      style={completedStyle}
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                    >
-                      {task.summary}
-                    </TableCell>
-                    <TableCell style={completedStyle}>
-                      {task.description}
-                    </TableCell>
-                    <TableCell style={completedStyle}>
-                      {format(task.createdOn, "yyyy-MM-dd")}
-                    </TableCell>
-                    <TableCell style={completedStyle}>
-                      {format(task.dueBy, "yyyy-MM-dd")}
-                    </TableCell>
-                    <TableCell style={completedStyle}>
-                      {task.priority}
-                    </TableCell>
-                    <TableCell>
-                      <IconButton
-                        onClick={() => handleEdit(task)}
-                        color="primary"
-                        aria-label="edit task"
-                      >
-                        <Edit />
-                      </IconButton>
-                      <Button
-                        onClick={() => handleState(task)}
-                        color="primary"
-                        aria-label="edit task"
-                      >
-                        {task.currentState === "Completed" ? "Re-open" : "Done"}
-                      </Button>
-                      <IconButton
-                        onClick={() => handleDelete(task)}
-                        color="primary"
-                        aria-label="delete task"
-                      >
-                        <DeleteOutline />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
+                  <TodoTableRow
+                    key={task.id}
+                    task={task}
+                    handleStateChange={handleStateChange}
+                    handleDialogOpen={handleDialogOpen}
+                  />
                 );
               })}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
-      <TaskDetailsDialog
-        open={open}
-        handleClose={handleDialogClose}
-        taskDetails={taskDetails}
-        action="edit"
-      />
+      {action !== "delete" ? (
+        <TaskDetailsDialog
+          open={open}
+          handleClose={handleDialogClose}
+          taskDetails={taskDetails}
+          action={action}
+        />
+      ) : (
+        <TaskRemoveDialog
+          open={open}
+          handleClose={handleDialogClose}
+          taskDetails={taskDetails}
+        />
+      )}
     </div>
   );
 };

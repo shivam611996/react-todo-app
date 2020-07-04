@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -35,3 +37,41 @@ export const createData = (
 ) => {
   return { id, summary, description, createdOn, dueBy, priority, currentState };
 };
+
+export const searchByValue = (searchValue, tasks) => {
+  let filteredData = [];
+  filteredData = tasks.filter((task) => {
+    const { summary, description, createdOn, dueBy, priority } = task;
+    let rowValues = Object.values({
+      summary,
+      description,
+      createdOn,
+      dueBy,
+      priority,
+    });
+    return rowValues.some((value) => {
+      const regex = new RegExp(searchValue, "gi");
+      if (typeof value == "string") {
+        const matches = value.match(regex);
+        if (matches && matches.length) {
+          return true;
+        }
+      } else if (typeof value == "object") {
+        const matches = format(value, "yyyy-MM-dd").match(regex);
+        if (matches && matches.length) {
+          return true;
+        }
+      }
+      return false;
+    });
+  });
+  return filteredData;
+};
+
+export const groupByField = (fieldName, tasks) =>
+  tasks.reduce((result, task) => {
+    return {
+      ...result,
+      [task[fieldName]]: [...(result[task[fieldName]] || []), task],
+    };
+  }, {});

@@ -23,7 +23,7 @@ export const headCells = [
 export const rows = [
   createData(
     1,
-    "Eat food",
+    "Eat afternoon food",
     "description of eating food",
     new Date(),
     addDays(new Date(), 1),
@@ -32,7 +32,7 @@ export const rows = [
   ),
   createData(
     2,
-    "Play football",
+    "Go outside and play football",
     "description of playing football",
     addDays(new Date(), -2),
     addDays(new Date(), 3),
@@ -41,7 +41,7 @@ export const rows = [
   ),
   createData(
     3,
-    "Go to market",
+    "Go to market and buy something",
     "description of going to market",
     addDays(new Date(), -2),
     addDays(new Date(), 10),
@@ -50,29 +50,29 @@ export const rows = [
   ),
   createData(
     4,
-    "Preapre presentation",
+    "Preapre office presentation",
     "description of preparing presentation",
     addDays(new Date(), -1),
     addDays(new Date(), 1),
     "High",
     "Completed"
   ),
-  createData(
-    5,
-    "Study",
-    "description of studying",
-    addDays(new Date(), -1),
-    addDays(new Date(), 1),
-    "Medium",
-    "Completed"
-  ),
-  createData(
-    6,
-    "Excercise",
-    "description of Excercise",
-    addDays(new Date(), -4),
-    addDays(new Date(), 1),
-    "High",
-    "Completed"
-  ),
+  // createData(
+  //   5,
+  //   "Study unknown stuff",
+  //   "description of studying",
+  //   addDays(new Date(), -1),
+  //   addDays(new Date(), 1),
+  //   "Medium",
+  //   "Completed"
+  // ),
+  // createData(
+  //   6,
+  //   "Do excercise in the morning",
+  //   "description of excercise",
+  //   addDays(new Date(), -4),
+  //   addDays(new Date(), 1),
+  //   "High",
+  //   "Completed"
+  // ),
 ];

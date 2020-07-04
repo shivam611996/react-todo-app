@@ -29,6 +29,7 @@ const TaskDetailsSchema = Yup.object().shape({
 
 const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
   const setTasks = React.useContext(TasksContext)[1];
+  const isReadOnly = action === "read-only";
 
   const onSubmit = (values, { setSubmitting }) => {
     if (action === "edit") {
@@ -44,8 +45,7 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
         });
         return newTasks;
       });
-    } else {
-      // create action
+    } else if (action === "create") {
       setTasks((prevTasks) => {
         return [
           ...prevTasks,
@@ -59,11 +59,8 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
       });
     }
 
-    setTimeout(() => {
-      setSubmitting(false);
-      handleClose();
-      console.log(JSON.stringify({ values }));
-    });
+    setSubmitting(false);
+    handleClose();
   };
 
   return (
@@ -74,7 +71,9 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
         aria-labelledby="form-dialog-title"
         disableBackdropClick
       >
-        <DialogTitle id="form-dialog-title">Edit Task</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {isReadOnly ? "View" : "Edit"} Task
+        </DialogTitle>
         <Formik
           initialValues={{
             summary: taskDetails.summary || "",
@@ -87,13 +86,15 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
         >
           {({ submitForm, isSubmitting }) => (
             <Form>
-              <DialogContent>
+              <DialogContent dividers>
                 <Field
                   autoFocus
                   component={TextField}
                   name="summary"
                   label="Summary"
                   fullWidth
+                  margin="dense"
+                  disabled={isReadOnly}
                 />
                 <Field
                   component={TextField}
@@ -103,18 +104,24 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
                   fullWidth
                   label="Description"
                   name="description"
+                  disabled={isReadOnly}
+                  margin="dense"
                 />
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <Field
                     component={DateTimePicker}
-                    // value={selectedDate}
-                    // onChange={handleDateChange}
                     label="Due By"
                     name="dueBy"
+                    disabled={isReadOnly}
+                    margin="dense"
                   />
-                  <FormControl>
+                  <FormControl
+                    margin="dense"
+                    style={{ minWidth: "40%" }}
+                    disabled={isReadOnly}
+                  >
                     <InputLabel htmlFor="task-priority">Priority</InputLabel>
                     <Field
                       component={Select}
@@ -122,9 +129,11 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
                       inputProps={{
                         id: "task-priority",
                       }}
+                      disabled={isReadOnly}
                     >
                       <MenuItem value="None">None</MenuItem>
                       <MenuItem value="Low">Low</MenuItem>
+                      <MenuItem value="Medium">Medium</MenuItem>
                       <MenuItem value="High">High</MenuItem>
                     </Field>
                   </FormControl>
@@ -133,10 +142,10 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose} color="primary">
-                  Cancel
+                  {isReadOnly ? "Close" : "Cancel"}
                 </Button>
                 <Button
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isReadOnly}
                   onClick={submitForm}
                   color="primary"
                 >

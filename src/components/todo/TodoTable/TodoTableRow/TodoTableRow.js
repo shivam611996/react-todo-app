@@ -8,10 +8,13 @@ import Button from "@material-ui/core/Button";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
-const TodoTable = ({ task, handleStateChange, handleDialogOpen }) => {
+import "./TodoTableRow.styles.scss";
+
+const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
   const completedStyle = {
     textDecoration: task.currentState === "Completed" ? "line-through" : "none",
   };
+  const currentState = task.currentState === "Completed" ? "Re-open" : "Done";
 
   return (
     <TableRow
@@ -36,26 +39,28 @@ const TodoTable = ({ task, handleStateChange, handleDialogOpen }) => {
             handleDialogOpen("edit", task);
           }}
           color="primary"
+          variant="conatined"
           aria-label="edit task"
         >
           <Edit />
         </IconButton>
         <Button
+          className="task-state"
           onClick={(e) => {
             e.stopPropagation();
             handleStateChange(task);
           }}
-          color="primary"
-          aria-label="edit task"
+          aria-label={`${currentState} task`}
         >
-          {task.currentState === "Completed" ? "Re-open" : "Done"}
+          {currentState}
         </Button>
         <IconButton
           onClick={(e) => {
             e.stopPropagation();
             handleDialogOpen("delete", task);
           }}
-          color="primary"
+          color="secondary"
+          variant="conatined"
           aria-label="delete task"
         >
           <DeleteOutline />
@@ -65,4 +70,4 @@ const TodoTable = ({ task, handleStateChange, handleDialogOpen }) => {
   );
 };
 
-export default TodoTable;
+export default TodoTableRow;

@@ -6,10 +6,10 @@ import Tab from "@material-ui/core/Tab";
 import TabPanel from "./TabPanel/TabPanel";
 import TodoTable from "../TodoTable/TodoTable";
 
-const a11yProps = (index) => {
+const a11yProps = (value) => {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `${value}-taks-tab`,
+    "aria-controls": `${value}-tasks-tabpanel`,
   };
 };
 
@@ -26,11 +26,13 @@ const TaskTabs = () => {
       <Tabs
         value={value}
         onChange={handleChange}
-        aria-label="simple tabs example"
+        indicatorColor="primary"
+        textColor="primary"
+        aria-label="task current state tabs"
       >
-        <Tab value="All" label="All" {...a11yProps("All")} />
-        <Tab value="Pending" label="Pending" {...a11yProps("Pending")} />
-        <Tab value="Completed" label="Completed" {...a11yProps("Completed")} />
+        <Tab value="All" label="All" {...a11yProps("all")} />
+        <Tab value="Pending" label="Pending" {...a11yProps("pending")} />
+        <Tab value="Completed" label="Completed" {...a11yProps("completed")} />
       </Tabs>
       <TabPanel value={value} index="All">
         <TodoTable type="All" />

@@ -9,8 +9,8 @@ const TabPanel = ({ children, value, index, ...other }) => {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`${value}-taks-tabpanel`}
+      aria-labelledby={`${value}-tasks-tabpanel`}
       {...other}
     >
       {value === index && (

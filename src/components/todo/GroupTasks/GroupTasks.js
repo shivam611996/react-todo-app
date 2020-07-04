@@ -4,7 +4,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import MuiSelect from "@material-ui/core/Select";
-// import { TasksContext } from "../../../contexts/TasksContext";
 
 const GroupTasks = ({ handleGrouping }) => {
   const [groupBy, setGroupBy] = React.useState("None");
@@ -13,10 +12,9 @@ const GroupTasks = ({ handleGrouping }) => {
     const groupBy = event.target.value;
     setGroupBy(groupBy);
     handleGrouping(groupBy);
-    // setTasks(groupedTasks);
   };
   return (
-    <FormControl style={{ minWidth: 120 }}>
+    <FormControl>
       <InputLabel id="demo-simple-select-label">Group By</InputLabel>
       <MuiSelect
         labelId="demo-simple-select-label"

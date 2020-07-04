@@ -19,6 +19,8 @@ import {
 } from "../../../utils/todo";
 import { TasksContext } from "../../../contexts/TasksContext";
 
+import "./TodoTable.styles.scss";
+
 const TodoTable = ({ type }) => {
   const classes = {};
   const [tasks, setTasks, searchValue, groupBy] = React.useContext(
@@ -146,7 +148,7 @@ const TodoTable = ({ type }) => {
                     const tasks = groupedTasks[taskGroup];
                     return (
                       <React.Fragment key={taskGroup}>
-                        <TableRow tabIndex={-1}>
+                        <TableRow className="task-group-name" tabIndex={-1}>
                           <TableCell align="center" colSpan={6}>
                             {taskGroup}
                           </TableCell>

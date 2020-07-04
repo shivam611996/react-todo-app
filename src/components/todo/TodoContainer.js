@@ -7,7 +7,7 @@ import TaskTabs from "./TaskTabs/TaskTabs";
 import { rows } from "../../constants/todo";
 import { TasksContext } from "../../contexts/TasksContext";
 
-import "./TodoContainer.css";
+import "./TodoContainer.styles.scss";
 
 const TodoContainer = () => {
   const [tasks, setTasks] = React.useState(rows);
@@ -29,8 +29,10 @@ const TodoContainer = () => {
       <div className="content">
         <TasksContext.Provider value={[tasks, setTasks, searchValue, groupBy]}>
           <CreateTask />
-          <GroupTasks handleGrouping={handleGrouping} />
-          <SearchTasks handleSearch={handleSearch} />
+          <div className="grouping-and-searching">
+            <GroupTasks handleGrouping={handleGrouping} />
+            <SearchTasks handleSearch={handleSearch} />
+          </div>
           <TaskTabs />
         </TasksContext.Provider>
       </div>

@@ -1,0 +1,24 @@
+.todo-container {
+  padding: 50px;
+  padding-top: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grouping-and-searching {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+
+  & > div:first-of-type {
+    margin-right: 50px;
+    min-width: 150px;
+  }
+
+  & > div:last-of-type {
+    flex-grow: 1;
+  }
+}

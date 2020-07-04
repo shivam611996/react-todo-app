@@ -4,11 +4,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableContainer from "@material-ui/core/TableContainer";
 import Paper from "@material-ui/core/Paper";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
 
 import TodoTableHead from "./TodoTableHead/TodoTableHead";
-import TodoTableRow from "./TodoTableRow/TodoTableRow";
 import TaskDetailsDialog from "../TaskDetailsDialog/TaskDetailsDialog";
 import TaskRemoveDialog from "../TaskRemoveDialog/TaskRemoveDialog";
 import {
@@ -18,11 +15,12 @@ import {
   groupByField,
 } from "../../../utils/todo";
 import { TasksContext } from "../../../contexts/TasksContext";
+import GroupedRows from "./GroupedRows/GroupedRows";
+import FilteredRows from "./FilteredRows/FilteredRows";
 
 import "./TodoTable.styles.scss";
 
 const TodoTable = ({ type }) => {
-  const classes = {};
   const [tasks, setTasks, searchValue, groupBy] = React.useContext(
     TasksContext
   );
@@ -116,7 +114,6 @@ const TodoTable = ({ type }) => {
   };
 
   const handleDialogOpen = (action, task) => {
-    console.log({ action });
     setTaskDetails({ ...task });
     setAction(action);
     setOpen(true);
@@ -125,8 +122,6 @@ const TodoTable = ({ type }) => {
   const handleDialogClose = () => {
     setOpen(false);
   };
-
-  const groupKeys = Object.keys(groupedTasks);
 
   return (
     <>
@@ -139,37 +134,19 @@ const TodoTable = ({ type }) => {
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {groupBy && groupBy !== "None"
-                ? groupKeys.map((taskGroup) => {
-                    const tasks = groupedTasks[taskGroup];
-                    return (
-                      <React.Fragment key={taskGroup}>
-                        <TableRow className="task-group-name" tabIndex={-1}>
-                          <TableCell align="center" colSpan={6}>
-                            {taskGroup}
-                          </TableCell>
-                        </TableRow>
-                        {tasks.map((task) => (
-                          <TodoTableRow
-                            key={task.id}
-                            task={task}
-                            handleStateChange={handleStateChange}
-                            handleDialogOpen={handleDialogOpen}
-                          />
-                        ))}
-                      </React.Fragment>
-                    );
-                  })
-                : filteredTasks.map((task) => {
-                    return (
-                      <TodoTableRow
-                        key={task.id}
-                        task={task}
-                        handleStateChange={handleStateChange}
-                        handleDialogOpen={handleDialogOpen}
-                      />
-                    );
-                  })}
+              {groupBy && groupBy !== "None" ? (
+                <GroupedRows
+                  groupedTasks={groupedTasks}
+                  handleStateChange={handleStateChange}
+                  handleDialogOpen={handleDialogOpen}
+                />
+              ) : (
+                <FilteredRows
+                  filteredTasks={filteredTasks}
+                  handleStateChange={handleStateChange}
+                  handleDialogOpen={handleDialogOpen}
+                />
+              )}
             </TableBody>
           </Table>
         </TableContainer>

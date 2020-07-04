@@ -26,8 +26,10 @@ const TodoContainer = () => {
 
   return (
     <main className="todo-container">
-      <h1>ToDo App</h1>
-      <div className="content">
+      <header>
+        <h1>ToDo App</h1>
+      </header>
+      <section>
         <TasksContext.Provider value={[tasks, setTasks, searchValue, groupBy]}>
           <CreateTask />
           <div className="grouping-and-searching">
@@ -36,7 +38,7 @@ const TodoContainer = () => {
           </div>
           <TaskTabs />
         </TasksContext.Provider>
-      </div>
+      </section>
     </main>
   );
 };

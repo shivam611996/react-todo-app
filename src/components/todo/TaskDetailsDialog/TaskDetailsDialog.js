@@ -33,6 +33,7 @@ const TaskDetailsSchema = Yup.object().shape({
 const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
   const setTasks = React.useContext(TasksContext)[1];
   const isReadOnly = action === "read-only";
+  const isEditAction = action === "edit";
 
   const onSubmit = (values, { setSubmitting }) => {
     if (action === "edit") {
@@ -74,7 +75,7 @@ const TaskDetailsDialog = ({ action, taskDetails = {}, open, handleClose }) => {
       disableBackdropClick
     >
       <DialogTitle id="form-dialog-title">
-        {isReadOnly ? "View" : "Edit"} Task
+        {isReadOnly ? "View" : isEditAction ? "Edit" : "Create"} Task
       </DialogTitle>
       <Formik
         initialValues={{

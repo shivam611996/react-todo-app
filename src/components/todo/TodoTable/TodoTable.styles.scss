@@ -5,3 +5,8 @@
     font-size: 1rem;
   }
 }
+
+.MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active
+  .MuiTableSortLabel-icon.MuiTableSortLabel-icon {
+  color: blue;
+}

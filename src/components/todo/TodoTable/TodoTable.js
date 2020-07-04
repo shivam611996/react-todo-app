@@ -37,63 +37,67 @@ const TodoTable = ({ type }) => {
       let filteredTasksByType = tasks.filter(
         (task) => task.currentState === type
       );
+      filteredTasksByType = stableSort(
+        filteredTasksByType,
+        getComparator(order, orderBy)
+      );
       setFilteredTasks(filteredTasksByType);
-    } else if (
-      type === "All" &&
-      !searchValue &&
-      groupBy === "None" &&
-      filteredTasks.length !== tasks.length
-    ) {
-      setFilteredTasks(tasks);
+    } else if (type === "All" && !searchValue && groupBy === "None") {
+      const orderedTasks = stableSort(tasks, getComparator(order, orderBy));
+      setFilteredTasks(orderedTasks);
     }
-  }, [filteredTasks.length, groupBy, searchValue, tasks, type]);
+  }, [filteredTasks.length, groupBy, order, orderBy, searchValue, tasks, type]);
 
   React.useEffect(() => {
     if (searchValue) {
-      const searchedTasks = searchByValue(searchValue, tasks);
-      const filteredTasksBySearch =
+      const filteredTasksByType =
         type === "All"
-          ? searchedTasks
-          : searchedTasks.filter((task) => task.currentState === type);
-      setFilteredTasks(filteredTasksBySearch);
+          ? tasks
+          : tasks.filter((task) => task.currentState === type);
+      const orderedTasks = stableSort(
+        filteredTasksByType,
+        getComparator(order, orderBy)
+      );
+      const searchedTasks = searchByValue(searchValue, orderedTasks);
+      setFilteredTasks(searchedTasks);
     }
-  }, [searchValue, tasks, type]);
+  }, [order, orderBy, searchValue, tasks, type]);
 
   React.useEffect(() => {
     if (groupBy && groupBy !== "None") {
-      const filterdedTasks =
+      const filteredTasksByType =
         type === "All"
           ? tasks
           : tasks.filter((task) => task.currentState === type);
+      const orderedTasks = stableSort(
+        filteredTasksByType,
+        getComparator(order, orderBy)
+      );
       const searchedTasks = searchValue
-        ? searchByValue(searchValue, filterdedTasks)
-        : filterdedTasks;
+        ? searchByValue(searchValue, orderedTasks)
+        : orderedTasks;
       const groupedTasks = groupByField(groupBy, searchedTasks);
       setGroupedTasks(groupedTasks);
-    } else if (groupBy && groupBy === "None") {
-      setFilteredTasks(tasks);
-      setGroupedTasks({});
     }
-  }, [groupBy, searchValue, tasks, type]);
-
-  React.useEffect(() => {
-    if (orderBy && order) {
-      let orderedTasks =
-        type === "All"
-          ? tasks
-          : tasks.filter((task) => task.currentState === type);
-      if (searchValue) {
-        orderedTasks = searchByValue(searchValue, orderedTasks);
-      }
-      orderedTasks = stableSort(orderedTasks, getComparator(order, orderBy));
-      setFilteredTasks(orderedTasks);
-    }
-  }, [orderBy, order, searchValue, tasks, type]);
+  }, [groupBy, order, orderBy, searchValue, tasks, type]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const newOrder = isAsc ? "desc" : "asc";
+    setOrder(newOrder);
     setOrderBy(property);
+
+    if (!searchValue && groupBy === "None") {
+      let filteredTasks =
+        type === "All"
+          ? tasks
+          : tasks.filter((task) => task.currentState === type);
+      filteredTasks = stableSort(
+        filteredTasks,
+        getComparator(newOrder, property)
+      );
+      setFilteredTasks(filteredTasks);
+    }
   };
 
   const handleStateChange = (task) => {

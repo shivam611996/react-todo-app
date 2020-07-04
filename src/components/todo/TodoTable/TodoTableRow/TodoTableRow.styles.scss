@@ -1,14 +1,29 @@
-.task-state {
-  color: white !important;
-  background-color: green !important;
-}
-
 .completed {
   text-decoration: line-through;
 }
 
-.cursor {
+.task-row {
   &:hover {
     cursor: pointer;
+  }
+
+  .task-done,
+  .task-re-open {
+    color: white;
+    text-transform: none;
+  }
+
+  .task-done {
+    background-color: green;
+    &:hover {
+      background-color: lightgreen;
+    }
+  }
+
+  .task-re-open {
+    background-color: lightseagreen;
+    &:hover {
+      background-color: lightskyblue;
+    }
   }
 }

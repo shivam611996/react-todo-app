@@ -23,7 +23,7 @@ const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
       hover
       tabIndex={-1}
       key={task.id}
-      className="cursor"
+      className="task-row"
     >
       <TableCell className={completedStyle}>{task.summary}</TableCell>
       <TableCell className={completedStyle}>{task.description}</TableCell>
@@ -47,7 +47,7 @@ const TodoTableRow = ({ task, handleStateChange, handleDialogOpen }) => {
           <Edit />
         </IconButton>
         <Button
-          className="task-state"
+          className={isCompleted ? "task-re-open" : "task-done"}
           onClick={(e) => {
             e.stopPropagation();
             handleStateChange(task);
